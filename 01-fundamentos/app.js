@@ -14,13 +14,16 @@ b = 15; */
 
 let a = 10;
     b = 20;
-    c = 30;
-    d = 40;
+    c = 'Mustang';
+    d = 'GT';
     x = a + b;
 
+const auto = c + d;
 /* console.log('a',a);
 console.log('b',b);
 console.log('c',c); */
 
-console.log({ a, b, c })
-console.log('%c Mis variables', 'color:blue; font-weight: thin');
+console.log(auto)
+/* console.log({ a, b, c })
+console.log('%c Mis variables', 'color:blue; font-weight: thin'); */
+
