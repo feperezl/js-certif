@@ -14,6 +14,7 @@ let puntosJugador = 0;
 const btnPedir = document.querySelector('#btnPedir');
 
 const divCartasJugador = document.querySelector('#jugador-cartas');
+const divCartasPC = document.querySelector('#pc-cartas');
 
 const puntos = document.querySelectorAll('small');
 
@@ -51,20 +52,34 @@ const pedirCarta = () => {
     const carta = deck.pop();
 
     return carta;
-}
-
-/* for (let i = 0; i <= 100; i++) {
-    pedirCarta();
-} */
-
+};
 const valorCarta = ( carta ) => {
 
     const valor = carta.substring(0, carta.length - 1);
     return ( isNaN(valor) ) ? 
             (valor === 'A') ? 11 : 10
             : valor * 1;
-}
+};
 
+// turno de la computadora
+const turnopc = (puntosMin) => {
+   do {
+       const carta = pedirCarta();
+       
+       puntosComputadora = puntosComputadora + valorCarta(carta);
+       puntos[1].innerText = puntosComputadora;
+       
+       const imgCarta = document.createElement('img');
+       imgCarta.src = `assets/cartas/${ carta }.png`;
+       imgCarta.classList.add('carta');
+       divCartasPC.append(imgCarta);
+
+       if (puntosMin > 21) {
+              break;
+       }
+
+    } while( (puntosComputadora < puntosMin) && (puntosMin <= 21));
+}   
 // eventos
 btnPedir.addEventListener('click', () => {
     const carta = pedirCarta();
@@ -75,7 +90,22 @@ btnPedir.addEventListener('click', () => {
     const imgCarta = document.createElement('img');
     imgCarta.src = `assets/cartas/${ carta }.png`;
     imgCarta.classList.add('carta');
-
     divCartasJugador.append(imgCarta);
-}
-);
+
+    if (puntosJugador > 21) {
+
+        btnPedir.disabled = true;
+        turnopc(puntosJugador);
+        alert('Perdiste');
+
+    } else if (puntosJugador === 21) {
+        btnPedir.disabled = true;
+        alert('21!! Ganaste')
+    }
+});
+
+btnDetener.addEventListener('click', () => {
+    btnPedir.disabled = true;
+    btnDetener.disabled = true;
+    turnopc(puntosJugador);
+});
